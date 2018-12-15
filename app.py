@@ -6,11 +6,9 @@ from apis import api
 from data import db
 
 from apis.misc import api as misc_api
-from apis.users import api as users_api
 from apis.posts import api as posts_api
 
 app = Flask(__name__)
-api.add_namespace(users_api, path='/users')
 api.add_namespace(posts_api, path='/posts')
 api.add_namespace(misc_api, path='/misc')
 
