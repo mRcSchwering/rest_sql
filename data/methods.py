@@ -1,5 +1,6 @@
 # this python file uses the following encoding: utf-8
 import logging
+from data import db
 from data.models import Post, Category
 
 log = logging.getLogger(__name__)
@@ -38,3 +39,13 @@ def get_posts_from(year, month=None, day=None):
         .filter(Post.pub_date <= end_date) \
         .all()
     return res
+
+
+def create_post(title, body, category_id):
+    log.info('creating post "%s" with category id %d' % (title, category_id))
+    category = Category.query.filter(Category.id == category_id).one()
+    log.info('category found: %s' % category)
+    post = Post(title=title, body=body, category=category)
+    log.info('creating: %s' % post)
+    db.session.add(post)
+    db.session.commit()

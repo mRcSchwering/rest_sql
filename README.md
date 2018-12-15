@@ -29,3 +29,19 @@ python3 app.py
 
 - define authentication method in `apis/auth.py`
 - use `@auth.login_required` for enpoints
+
+
+## Test with curl
+
+```
+curl -i -u u1:asd \
+  http://localhost:5000/posts?id=1
+
+curl -i -u u1:asd \
+  http://localhost:5000/posts/
+
+curl -i -u u1:asd \
+  -H "Content-Type: application/json" \
+  -d -d '{"title": "my post", "body": "asdf", "category_id": 1}' \
+  http://localhost:5000/posts/
+```
