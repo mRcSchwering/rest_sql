@@ -40,4 +40,8 @@ def initialize_app(flask_app):
 if __name__ == '__main__':
     initialize_app(app)
     log.info('>>>>> Starting development server %s <<<<<' % settings.FLASK_SERVER_NAME)
-    app.run(debug=settings.FLASK_DEBUG)
+    if settings.FLASK_SSL:
+        ssl = ('certs/cert.pem', 'certs/key.pem')
+        app.run(ssl_context=ssl, debug=settings.FLASK_DEBUG)
+    else:
+        app.run(debug=settings.FLASK_DEBUG)
