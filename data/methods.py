@@ -63,3 +63,14 @@ def create_post(title, body, category_id):
     log.info('creating: %s' % post)
     db.session.add(post)
     db.session.commit()
+
+
+def get_all_cats():
+    return Category.query.all()
+
+
+def create_category(name):
+    log.info('Creating category: %s' % name)
+    cat = Category(name=name)
+    db.session.add(cat)
+    db.session.commit()

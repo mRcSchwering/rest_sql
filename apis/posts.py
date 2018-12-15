@@ -10,13 +10,13 @@ api = Namespace('Posts', description='Posts description')
 
 
 # serializers
-post_str = api.model('Post object', {
+post_obj = api.model('Post object', {
     'id': fields.Integer(readOnly=True, description='The unique identifier of a blog post'),
     'title': fields.String(required=True, description='Article title'),
     'body': fields.String(required=True, description='Article content'),
-    'pub_date': fields.DateTime,
-    'category_id': fields.Integer(attribute='category.id'),
-    'category': fields.String(attribute='category.name'),
+    'pub_date': fields.DateTime(description='Creation date'),
+    'category_id': fields.Integer(attribute='category.id', description='Unique id of related category'),
+    'category': fields.String(attribute='category.name', description='Name related category'),
 })
 
 post_payload = api.model('Payload for creating a post', {
@@ -42,7 +42,7 @@ class PostsByParameters(Resource):
 
     @auth.login_required
     @api.expect(get_posts_args)
-    @api.marshal_with(post_str)
+    @api.marshal_with(post_obj)
     def get(self):
         '''
         GET with regular arguments - like /posts?id=5
@@ -60,7 +60,7 @@ class PostsByParameters(Resource):
 class AllPosts(Resource):
 
     @auth.login_required
-    @api.marshal_with(post_str)
+    @api.marshal_with(post_obj)
     def get(self):
         '''
         Description for '*/posts/' endpoint for just getting all posts
@@ -76,7 +76,7 @@ class AllPosts(Resource):
         '''
         Creating a new post by POSTing json payload
 
-        `@api.expect(post_str)` would be sufficient but its better for user to only see required params
+        `@api.expect(post_obj)` would be sufficient but its better for user to only see required params
         Argument parser here is confusing because it shows arguments as single parameters in swagger ui
         and not as a json payload
 
@@ -96,7 +96,7 @@ class AllPosts(Resource):
 class PostsById(Resource):
 
     @auth.login_required
-    @api.marshal_with(post_str)
+    @api.marshal_with(post_obj)
     def get(self, id):
         '''
         GET with parameters from '/'- like /posts/5
@@ -117,7 +117,7 @@ class PostsById(Resource):
 @api.route('/archive/<int:year>/<int:month>/<int:day>/')
 class PostsByTime(Resource):
 
-    @api.marshal_with(post_str)
+    @api.marshal_with(post_obj)
     def get(self, year, month=None, day=None):
         '''
         GET with optional '/'-separated parameters

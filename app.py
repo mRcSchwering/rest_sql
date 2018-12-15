@@ -7,9 +7,11 @@ from data import db
 
 from apis.misc import api as misc_api
 from apis.posts import api as posts_api
+from apis.categories import api as cats_api
 
 app = Flask(__name__)
 api.add_namespace(posts_api, path='/posts')
+api.add_namespace(cats_api, path='/categories')
 api.add_namespace(misc_api, path='/misc')
 
 log = logging.getLogger(__name__)
@@ -32,7 +34,7 @@ def initialize_app(flask_app):
     db.init_app(flask_app)
     api.init_app(flask_app)
     # with flask_app.app_context():
-    #     do_db_stuff_on_startup()
+    #     do_db_stuff_on_startup_that_needs_app_context()
 
 
 if __name__ == '__main__':
