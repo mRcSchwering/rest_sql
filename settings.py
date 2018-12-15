@@ -1,7 +1,7 @@
 # this python file uses the following encoding: utf-8
 
 # Flask settings
-FLASK_SERVER_NAME = 'localhost:5000'
+FLASK_SERVER_NAME = '0.0.0.0:5000'
 FLASK_DEBUG = True  # Do not use debug mode in production
 FLASK_SSL = False  # needs 'certs/cert.pem' and 'certs/key.pem'
 

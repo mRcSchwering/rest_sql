@@ -20,6 +20,10 @@ def reset_database():
     db.session.commit()
 
 
+def on_app_startup():
+    reset_database()
+
+
 def get_all_posts(id):
     if id is None:
         return Post.query.all()

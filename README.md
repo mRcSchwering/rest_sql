@@ -58,3 +58,12 @@ The browser will still complain though.
 ```
 openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 1000
 ```
+
+## Docker
+
+Hosts in app (`settings.FLASK_SERVER_NAME`) needs to be `0.0.0.0`.
+
+```
+docker build -t flask_app .
+docker run -p 5000:5000 flask_app
+```

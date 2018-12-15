@@ -4,6 +4,7 @@ from flask import Flask
 import settings
 from apis import api
 from data import db
+import data.methods as methods
 
 from apis.misc import api as misc_api
 from apis.posts import api as posts_api
@@ -33,8 +34,8 @@ def initialize_app(flask_app):
     configure_app(flask_app)
     db.init_app(flask_app)
     api.init_app(flask_app)
-    # with flask_app.app_context():
-    #     do_db_stuff_on_startup_that_needs_app_context()
+    with flask_app.app_context():
+        methods.on_app_startup()
 
 
 if __name__ == '__main__':
