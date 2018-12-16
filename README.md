@@ -33,6 +33,7 @@ python3 app.py
 
 - define authentication method in `apis/auth.py`
 - use `@auth.login_required` for enpoints
+- `secrets/*` are in `.gitignore`
 
 ## Test with curl
 
@@ -53,7 +54,8 @@ curl -i -u u1:asd \
 
 ## SSL
 
-Create self-signed cert as below and put both files under `certs/`.
+Create self-signed cert as below and put both files
+`key.pem` and `cert.pem` under `secrets/`.
 Then enable ssl in `settings.py`.
 The browser will still complain though, and handshake takes super long in browser.
 

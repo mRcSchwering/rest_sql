@@ -24,14 +24,14 @@ def test_PostsByParameters_with_non_existent_id():
     assert 'result was required but none was found' in content['message']
 
 
-def test_get_on_AllPosts():
+def test_get_AllPosts():
     response = requests.get(URL + '/', auth=utils.auth)
     assert response.status_code == 200, 'Should be OK'
     content = response.json()
     assert len(content) == 2, 'Should be 2 posts'
 
 
-def test_creating_new_post_on_AllPosts(reset_database_after_test):
+def test_creating_new_post_by_post_AllPosts(reset_database_after_test):
     params = {
         'title': 'test',
         'body': 'test',

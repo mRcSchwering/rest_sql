@@ -10,7 +10,7 @@ host = '0.0.0.0'
 port = '5000'
 server = '%s://%s:%s' % (protocol, host, port)
 
-auth = HTTPBasicAuth('u1', 'asd')
+auth = HTTPBasicAuth('u1', 'u1')
 
 
 @pytest.fixture

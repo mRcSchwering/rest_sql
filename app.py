@@ -44,7 +44,7 @@ if __name__ == '__main__':
     connection = '%s://%s' % ('https' if settings.FLASK_SSL else 'http', settings.FLASK_SERVER_NAME)
     log.info('\n\n>>>>> Starting development server %s <<<<<\n' % connection)
     if settings.FLASK_SSL:
-        ssl = ('certs/cert.pem', 'certs/key.pem')
+        ssl = ('secrets/cert.pem', 'secrets/key.pem')
         app.run(debug=settings.FLASK_DEBUG, ssl_context=ssl)
     else:
         app.run(debug=settings.FLASK_DEBUG)

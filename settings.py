@@ -4,7 +4,7 @@
 FLASK_PORT = '5000'  # this port needs to be exposed in Dockerfile
 FLASK_HOST = '0.0.0.0'  # 0.0.0.0 when dockerized
 FLASK_DEBUG = True  # Do not use debug mode in production
-FLASK_SSL = False  # needs 'certs/cert.pem' and 'certs/key.pem'
+FLASK_SSL = False  # needs 'secrets/cert.pem' and 'secrets/key.pem'
 
 # Flask-Restplus settings
 RESTPLUS_SWAGGER_UI_DOC_EXPANSION = 'list'  # none, list, full
