@@ -1,3 +1,8 @@
+# TODO
+
+- docker-compose for tests
+- easier switching: SSL, DEBUG, HOST, DB connection string, on_app_startup
+
 # REST-SQL
 
 Personal boilerplate code for REST API using Flask and SQLalchemy.
