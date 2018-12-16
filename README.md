@@ -36,6 +36,8 @@ python3 app.py
 
 ## Test with curl
 
+Local with `localhost`, dockerized with `0.0.0.0`.
+
 ```
 curl -i -u u1:asd \
   http://localhost:5000/posts?id=1
@@ -53,7 +55,7 @@ curl -i -u u1:asd \
 
 Create self-signed cert as below and put both files under `certs/`.
 Then enable ssl in `settings.py`.
-The browser will still complain though.
+The browser will still complain though, and handshake takes super long in browser.
 
 ```
 openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 1000
@@ -65,5 +67,5 @@ Hosts in app (`settings.FLASK_SERVER_NAME`) needs to be `0.0.0.0`.
 
 ```
 docker build -t flask_app .
-docker run -p 5000:5000 flask_app
+docker run --rm -p 5000:5000 flask_app
 ```
