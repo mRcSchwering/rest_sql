@@ -20,6 +20,7 @@ log = logging.getLogger(__name__)
 
 def configure_app(flask_app):
     logging.basicConfig(level=logging.DEBUG if settings.FLASK_DEBUG else logging.INFO)
+    settings.FLASK_SERVER_NAME = '%s:%s' % (settings.FLASK_HOST, settings.FLASK_PORT)
 
     flask_app.config['SERVER_NAME'] = settings.FLASK_SERVER_NAME
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = settings.SQLALCHEMY_DATABASE_URI
@@ -40,9 +41,10 @@ def initialize_app(flask_app):
 
 if __name__ == '__main__':
     initialize_app(app)
-    log.info('>>>>> Starting development server %s <<<<<' % settings.FLASK_SERVER_NAME)
+    connection = '%s://%s' % ('https' if settings.FLASK_SSL else 'http', settings.FLASK_SERVER_NAME)
+    log.info('\n\n>>>>> Starting development server %s <<<<<\n' % connection)
     if settings.FLASK_SSL:
         ssl = ('certs/cert.pem', 'certs/key.pem')
-        app.run(ssl_context=ssl, debug=settings.FLASK_DEBUG)
+        app.run(debug=settings.FLASK_DEBUG, ssl_context=ssl)
     else:
         app.run(debug=settings.FLASK_DEBUG)
