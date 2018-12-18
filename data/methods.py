@@ -6,24 +6,6 @@ from data.models import Post, Category
 log = logging.getLogger(__name__)
 
 
-def reset_database():
-    log.info('Resetting database')
-    db.drop_all()
-    db.create_all()
-
-    py = Category(name='Python')
-    Post(title='Hello Python!', body='Python is pretty cool', category=py)
-    p = Post(title='Snakes', body='Ssssssss')
-    py.posts.append(p)
-    db.session.add(py)
-
-    db.session.commit()
-
-
-def on_app_startup():
-    reset_database()
-
-
 def get_all_posts(id):
     if id is None:
         return Post.query.all()
@@ -78,3 +60,8 @@ def create_category(name):
     cat = Category(name=name)
     db.session.add(cat)
     db.session.commit()
+
+
+def on_app_startup():
+    """do things on startup that need app context"""
+    pass

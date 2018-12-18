@@ -76,3 +76,10 @@ Hosts in app (`settings.FLASK_SERVER_NAME`) needs to be `0.0.0.0`.
 docker build -t flask_app .
 docker run --rm -p 5000:5000 flask_app
 ```
+
+# things
+
+- on app startup in methods called in app
+- testdatabase in test/testdata
+- settings, overwritten if appropriate files there
+- auth u1, u1 if TESTING, sonst in json

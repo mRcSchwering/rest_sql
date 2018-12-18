@@ -1,3 +1,9 @@
+# ignore these
 *.pyc
 secrets/*
+.pytest_cache/*
+__pycache__/*
+
+# except for
+!secrets/config.json.template
 
