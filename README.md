@@ -1,7 +1,6 @@
 # TODO
 
 - docker-compose for tests
-- easier switching: SSL, DEBUG, HOST, DB connection string, on_app_startup
 
 # REST-SQL
 
@@ -10,8 +9,14 @@ Because I will forget it anyway..
 
 ## App configuration and start
 
-- see `app.py` for namespaces and how app starts up
-- general setting are in `settings.py`
+- see `app.py` for namespaces and how app starts up (API namespaces are added here)
+- general setting are in `settings.py`, some are loaded from `secrets/config.json`
+  if it exists
+- for methods which need app context and should start on app startup
+  there is a method in `data/methods.py`
+- depending on files under `secrets/` the app starts without SSL and in
+  flask debug mode (see **SSL** and **Tests**)
+- `secrets/*` are in `.gitignore`
 
 Start app with:
 
@@ -38,35 +43,46 @@ python3 app.py
 
 - define authentication method in `apis/auth.py`
 - use `@auth.login_required` for enpoints
-- `secrets/*` are in `.gitignore`
+- per default user `u1:u1` is created if there are no users
+  defined in `secrets/config.json`
 
-## Test with curl
+## Tests
 
-Local with `localhost`, dockerized with `0.0.0.0`.
+- when app starts and there is no `config.json` under `secrets`
+  with a `SQLALCHEMY_DATABASE_URI` key, `TESTING` is set
+  (see `settings.py`).
+- it switches off `SSL` and sets `sqlite:///:memory:` as database URI
+- Flask debug mode is also switched off and logging set to _INFO_
+- A `/reset_testdata/` endpoint is added to the api,
+  which would normally not be added (see `app.py`).
+
+**Hints**
 
 ```
 curl -i -u u1:asd \
-  http://localhost:5000/posts?id=1
+  http://0.0.0.0:5000/posts?id=1
 
 curl -i -u u1:asd \
-  http://localhost:5000/posts/
+  http://0.0.0.0:5000/posts/
 
 curl -i -u u1:asd \
   -H "Content-Type: application/json" \
   -d -d '{"title": "my post", "body": "asdf", "category_id": 1}' \
-  http://localhost:5000/posts/
+  http://0.0.0.0:5000/posts/
 ```
 
 ## SSL
 
 Create self-signed cert as below and put both files
 `key.pem` and `cert.pem` under `secrets/`.
-Then enable ssl in `settings.py`.
-The browser will still complain though, and handshake takes super long in browser.
+If these files are found SSL will be enabled in settings automatically.
+For testing SSL will be switched off.
 
 ```
 openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 1000
 ```
+
+Self-signed, so browser will complain.
 
 ## Docker
 
@@ -77,7 +93,7 @@ docker build -t flask_app .
 docker run --rm -p 5000:5000 flask_app
 ```
 
-# things
+# to document
 
 - on app startup in methods called in app
 - testdatabase in test/testdata
