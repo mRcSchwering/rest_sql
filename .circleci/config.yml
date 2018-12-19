@@ -1,0 +1,63 @@
+version: 2
+jobs:
+
+  build:
+    environment:
+      build: mrcschwering/cci-rest_sql_build:latest
+    docker:
+      - image: docker:18.03.0-ce-git
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build rest_sql
+          command: docker build -t "$build" .
+      - run:
+          name: Push rest_sql build
+          command: |
+            docker login -u="$DOCKERHUB_USER" -p="$DOCKERHUB_PASS"
+            docker push "$build"
+
+  testing:
+    docker:
+      - image: mrcschwering/docker-compose-git:latest
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Start containers and run tests
+          command: |
+            docker-compose -f 'docker-compose_test.yml' up -d
+
+  deploy:
+    environment:
+      build: mrcschwering/cci-rest_sql_build:latest
+      deploy: "mrcschwering/cci-rest_sql_deploy:latest"
+    docker:
+      - image: docker:18.03.0-ce-git
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Pull and tag tested image as deploy
+          command: |
+            docker pull "$build"
+            docker tag "$build" "$deploy"
+      - run:
+          name: Push deploy
+          command: |
+            docker login -u="$DOCKERHUB_USER" -p="$DOCKERHUB_PASS"
+            docker push "$deploy"
+
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - testing:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - testing

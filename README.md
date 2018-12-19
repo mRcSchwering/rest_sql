@@ -1,6 +1,6 @@
 # TODO
 
-- docker-compose for tests
+- docker-compose for tests -> server in utils muss bei docker-compose `app` sein
 
 # REST-SQL
 

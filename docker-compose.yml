@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+
+  app:
+    build: .
+    expose:
+      - '5000'
+
+  tests:
+    build: .
+    command: echo 'tests started'
