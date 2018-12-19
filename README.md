@@ -67,7 +67,7 @@ curl -i -u u1:asd \
 
 curl -i -u u1:asd \
   -H "Content-Type: application/json" \
-  -d -d '{"title": "my post", "body": "asdf", "category_id": 1}' \
+  -d '{"title": "my post", "body": "asdf", "category_id": 1}' \
   http://0.0.0.0:5000/posts/
 ```
 
