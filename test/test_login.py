@@ -15,8 +15,6 @@ secured_endpoints = [
 def test_call_should_be_secured(Call):
     Call.auth = None
     response = Call.do()
-    print(Call.uri)
-    print(Call)
     assert response.status_code == 401, 'Should be UNAUTHORIZED: no auth'
 
     Call.auth = HTTPBasicAuth('<!--!>', '<!--!>')
