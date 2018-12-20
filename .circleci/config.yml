@@ -3,7 +3,7 @@ jobs:
 
   build:
     environment:
-      build: mrcschwering/cci-rest_sql_build:latest
+      build: mrcschwering/cci-rest_sql:latest_build
     docker:
       - image: docker:18.03.0-ce-git
     steps:
@@ -25,14 +25,19 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: Start containers and run tests
+          name: Start containers
           command: |
             docker-compose -f 'docker-compose_test.yml' up -d
+            sleep 5
+      - run:
+          name: Run tests
+          command: |
+            docker-compose -f 'docker-compose_test.yml' run tests pytest test
 
   deploy:
     environment:
-      build: mrcschwering/cci-rest_sql_build:latest
-      deploy: "mrcschwering/cci-rest_sql_deploy:latest"
+      build: mrcschwering/cci-rest_sql:latest_build
+      deploy: mrcschwering/cci-rest_sql:latest_tested
     docker:
       - image: docker:18.03.0-ce-git
     steps:

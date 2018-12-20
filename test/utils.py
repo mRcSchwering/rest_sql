@@ -3,8 +3,14 @@ from requests.auth import HTTPBasicAuth
 from test.testdata import reset_database
 import requests
 import pytest
+import os
 
-server = 'http://0.0.0.0:5000'
+
+# setup
+FLASK_APP = os.environ.get('FLASK_APP')
+host = '0.0.0.0' if FLASK_APP is None else FLASK_APP
+server = 'http://%s:5000' % host
+
 user = 'u1'
 password = 'u1'
 auth = HTTPBasicAuth(user, password)
