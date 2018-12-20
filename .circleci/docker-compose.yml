@@ -3,13 +3,13 @@ version: '3'
 services:
 
   app:
-    build: .
+    image: mrcschwering/cci-rest_sql:latest_build
     ports:
       - "5000:5000"
     command: python3 app.py test
 
   tests:
-    build: .
+    image: mrcschwering/cci-rest_sql:latest_build
     environment:
       FLASK_APP: app
     command: echo 'overwriting CMD'

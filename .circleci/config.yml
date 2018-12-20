@@ -19,6 +19,8 @@ jobs:
             docker push "$build"
 
   testing:
+    environment:
+      compose_yml: .circleci/docker-compose.yml
     docker:
       - image: mrcschwering/docker-compose-git:latest
     steps:
@@ -27,12 +29,12 @@ jobs:
       - run:
           name: Start containers
           command: |
-            docker-compose -f 'docker-compose_test.yml' up -d
+            docker-compose -f "$compose_yml" up -d
             sleep 5
       - run:
           name: Run tests
           command: |
-            docker-compose -f 'docker-compose_test.yml' run tests pytest test
+            docker-compose -f "$compose_yml" run tests pytest test
 
   deploy:
     environment:
