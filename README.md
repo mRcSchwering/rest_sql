@@ -1,7 +1,3 @@
-# TODO
-
-- docker-compose for tests -> server in utils muss bei docker-compose `app` sein
-
 # REST-SQL
 
 Personal boilerplate code for REST API using Flask and SQLalchemy.
@@ -12,23 +8,22 @@ Because I will forget it anyway..
 - see `app.py` for namespaces and how app starts up (API namespaces are added here)
 - general setting are in `settings.py`, some are loaded from `secrets/config.json`
   if it exists
+- start with `python app.py`; `python app.py test` for testing
+- testing disables ssl, adds a enpoint for resetting testdata,
+  and switches on flask dbug
 - for methods which need app context and should start on app startup
   there is a method in `data/methods.py`
-- depending on files under `secrets/` the app starts without SSL and in
+- depending on files under `secrets/` the app starts with SSL and in
   flask debug mode (see **SSL** and **Tests**)
 - `secrets/*` are in `.gitignore`
-
-Start app with:
-
-```
-python3 app.py
-```
 
 ## Edit data
 
 - edit models in `data/models.py`
 - add them to _reset db method_ in `apis/misc.py` so that they are actually created
   (if there should be a reset method)
+- the default database URI is `sqlite:///:memory:`,
+  it can be overwritten by setting `SQLALCHEMY_DATABASE_URI` in `secrets/config.json`
 
 ## Edit apis
 
@@ -38,45 +33,30 @@ python3 app.py
   if serializer and parsers needed, they also go here
 - for the actual data querying use `data/methods`, so business logic is separated
   from the pure api stuff
+- when app starts in test mode the `apis/reset_testdata.py` is added
+  (see `app.py`)
 
 ## Authentication
 
 - define authentication method in `apis/auth.py`
 - use `@auth.login_required` for enpoints
 - per default user `u1:u1` is created if there are no users
-  defined in `secrets/config.json`
+  defined in `secrets/config.json` (see `test/utils.py`)
 
 ## Tests
 
-- when app starts and there is no `config.json` under `secrets`
-  with a `SQLALCHEMY_DATABASE_URI` key, `TESTING` is set
-  (see `settings.py`).
-- it switches off `SSL` and sets `sqlite:///:memory:` as database URI
-- Flask debug mode is also switched off and logging set to _INFO_
+- start app with `python app.py test` for testing
+- it switches off `SSL`
+- Flask debug mode is also switched on and logging set to _DEBUG_
 - A `/reset_testdata/` endpoint is added to the api,
   which would normally not be added (see `app.py`).
-
-**Hints**
-
-```
-curl -i -u u1:asd \
-  http://0.0.0.0:5000/posts?id=1
-
-curl -i -u u1:asd \
-  http://0.0.0.0:5000/posts/
-
-curl -i -u u1:asd \
-  -H "Content-Type: application/json" \
-  -d '{"title": "my post", "body": "asdf", "category_id": 1}' \
-  http://0.0.0.0:5000/posts/
-```
 
 ## SSL
 
 Create self-signed cert as below and put both files
 `key.pem` and `cert.pem` under `secrets/`.
 If these files are found SSL will be enabled in settings automatically.
-For testing SSL will be switched off.
+In test mode SSL is always switched off.
 
 ```
 openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 1000
@@ -86,16 +66,15 @@ Self-signed, so browser will complain.
 
 ## Docker
 
-Hosts in app (`settings.FLASK_SERVER_NAME`) needs to be `0.0.0.0`.
+- `Dockerfile` includes the whole repo, also `test/*`
+- `docker-compose.yml` for running app in 1 container, and testing from another
 
-```
-docker build -t flask_app .
-docker run --rm -p 5000:5000 flask_app
-```
+## Build
 
-# to document
+- there is a build procedure under `.circleci/`
+- see `.circleci/config.yml`
 
-- on app startup in methods called in app
-- testdatabase in test/testdata
-- settings, overwritten if appropriate files there
-- auth u1, u1 if TESTING, sonst in json
+# TODO
+
+- properly separate the app from the tests
+- deploy startegy
