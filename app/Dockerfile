@@ -9,15 +9,14 @@ RUN apk add --no-cache python3 && \
     if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
     rm -r /root/.cache
 
-# testing app
+# flask app
 COPY ./ /app/
 
 WORKDIR /app
 
 RUN find -name "*.pyc" -delete && \
-    pip3 install -r app/requirements.txt && \
     pip3 install -r requirements.txt
 
-EXPOSE 5001
+EXPOSE 5000
 
-CMD ["python3", "testing_app.py"]
+CMD ["python3", "app.py"]

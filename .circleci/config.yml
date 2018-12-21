@@ -11,7 +11,7 @@ jobs:
       - setup_remote_docker
       - run:
           name: Build rest_sql
-          command: docker build -t "$build" .
+          command: docker build -t "$build" app
       - run:
           name: Push rest_sql build
           command: |
@@ -27,10 +27,14 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
+          name: Build testing app
+          command: |
+            docker-compose -f "$compose_yml" build
+      - run:
           name: Start containers
           command: |
             docker-compose -f "$compose_yml" up -d
-            sleep 5
+            sleep 2
       - run:
           name: Run tests
           command: |

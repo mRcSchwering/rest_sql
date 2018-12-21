@@ -16,13 +16,13 @@ password = 'u1'
 auth = HTTPBasicAuth(user, password)
 
 # reset before starting tests
-requests.get(server + '/reset_testdata/')
+requests.get('http://0.0.0.0:5001/reset_testdata/')
 
 
 @pytest.fixture
 def reset_database_after_test():
     yield
-    requests.get(server + '/reset_testdata/')
+    requests.get('http://0.0.0.0:5001/reset_testdata/')
 
 
 class Get:

@@ -1,8 +1,9 @@
 # this python file uses the following encoding: utf-8
 import logging
 from flask import Flask
-from data import db
-from data.models import Post, Category
+from app.data import db
+from app.data.models import Post, Category
+
 
 log = logging.getLogger(__name__)
 app = Flask(__name__)
