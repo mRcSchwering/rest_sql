@@ -1,6 +1,5 @@
 # this python file uses the following encoding: utf-8
 from requests.auth import HTTPBasicAuth
-from test.testdata import reset_database
 import requests
 import pytest
 import os

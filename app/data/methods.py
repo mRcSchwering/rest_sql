@@ -1,7 +1,7 @@
 # this python file uses the following encoding: utf-8
 import logging
-from data import db
-from data.models import Post, Category
+from . import db
+from .models import Post, Category
 
 log = logging.getLogger(__name__)
 

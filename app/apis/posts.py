@@ -3,7 +3,7 @@ import logging
 from flask import request
 from flask_restplus import Namespace, Resource, reqparse, fields
 import data.methods as methods
-from apis.auth import auth
+from .auth import auth
 
 log = logging.getLogger(__name__)
 api = Namespace('Posts', description='Posts description')
