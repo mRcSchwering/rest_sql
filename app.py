@@ -5,7 +5,6 @@ import settings
 from apis import api
 from data import db
 from data.methods import on_app_startup
-import test.testdata as testdata
 
 from apis.posts import api as posts_api
 from apis.categories import api as cats_api
@@ -14,16 +13,11 @@ app = Flask(__name__)
 api.add_namespace(posts_api, path='/posts')
 api.add_namespace(cats_api, path='/categories')
 
-if settings.TESTING:
-    from apis.reset_testdata import api as reset_testdata_api
-    api.add_namespace(reset_testdata_api, path='/reset_testdata')
-
 log = logging.getLogger(__name__)
 
 
 def configure_app(flask_app):
     logging.basicConfig(level=logging.DEBUG if settings.FLASK_DEBUG else logging.INFO)
-
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = settings.SQLALCHEMY_DATABASE_URI
     flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = settings.SQLALCHEMY_TRACK_MODIFICATIONS
     flask_app.config['SWAGGER_UI_DOC_EXPANSION'] = settings.RESTPLUS_SWAGGER_UI_DOC_EXPANSION
@@ -44,8 +38,6 @@ def initialize_app(flask_app):
 if __name__ == '__main__':
     initialize_app(app)
     ssl = ('secrets/cert.pem', 'secrets/key.pem') if settings.FLASK_SSL else None
-    connection = '%s://%s:5000' % ('https' if settings.FLASK_SSL else 'http', settings.FLASK_HOST)
-    test = 'test ' if settings.TESTING else ''
-    log.info('\n\n>>>>> Starting %sserver %s <<<<<\n' % (test, connection))
-
+    server = '%s://%s:5000' % ('https' if settings.FLASK_SSL else 'http', settings.FLASK_HOST)
+    log.info('\n\n>>>>> Starting server %s <<<<<\n>>>>> Connecttion: %s <<<<<\n' % (server, settings.SQLALCHEMY_DATABASE_URI))
     app.run(debug=settings.FLASK_DEBUG, ssl_context=ssl, host=settings.FLASK_HOST)

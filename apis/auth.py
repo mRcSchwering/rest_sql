@@ -8,7 +8,7 @@ auth = HTTPBasicAuth()
 
 # create local user
 users = [{'name': 'u1', 'password': 'u1'}]
-if not settings.TESTING and os.path.isfile('secrets/config.json'):
+if os.path.isfile('secrets/config.json'):
     with open('secrets/config.json') as inf:
         config = json.load(inf)
     if config.get('users') is not None:
