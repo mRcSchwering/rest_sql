@@ -3,6 +3,7 @@ from requests.auth import HTTPBasicAuth
 import requests
 import pytest
 import os
+import time
 
 
 # setup
@@ -14,13 +15,20 @@ user = 'u1'
 password = 'u1'
 auth = HTTPBasicAuth(user, password)
 
+
 # reset before starting tests
 requests.get('http://0.0.0.0:5001/reset_testdata/')
 
 
-@pytest.fixture
-def reset_database_after_test():
+# importing run_around_tests will automatically apply it
+@pytest.fixture(autouse=True)
+def run_around_tests():
+    #db_before = get_db_content()
     yield
+    #db_after = get_db_content()
+    #diff = compare_content(db_before, db_after)
+    #if diff:
+    print('resetting db')
     requests.get('http://0.0.0.0:5001/reset_testdata/')
 
 

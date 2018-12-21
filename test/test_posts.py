@@ -1,7 +1,7 @@
 # this python file uses the following encoding: utf-8
 import pytest
 import requests
-from test.utils import Get, Post, reset_database_after_test
+from test.utils import Get, Post, run_around_tests
 
 URI = '/posts'
 
@@ -21,13 +21,15 @@ def test_PostsByParameters_with_non_existent_id():
 
 
 def test_get_AllPosts():
+    print('testing get')
     response = Get(URI + '/').do()
     assert response.status_code == 200, 'Should be OK'
     content = response.json()
     assert len(content) == 2, 'Should be 2 posts'
 
 
-def test_creating_new_post_by_post_AllPosts(reset_database_after_test):
+def test_creating_new_post_by_post_AllPosts():
+    print('testing post')
     payload = {
         'title': 'test',
         'body': 'test',
