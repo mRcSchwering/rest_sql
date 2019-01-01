@@ -1,4 +1,4 @@
-# App configuration and start
+# App and Configuration
 
 - see `app/app.py` for namespaces and how app starts up (API namespaces are added here)
 - general setting are in `app/settings.py`,

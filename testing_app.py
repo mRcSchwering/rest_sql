@@ -15,6 +15,7 @@ def reset_database():
     db.drop_all()
     db.create_all()
 
+    # creating testdatabase
     py = Category(name='Python')
     Post(title='Hello Python!', body='Python is pretty cool', category=py)
     p = Post(title='Snakes', body='Ssssssss')

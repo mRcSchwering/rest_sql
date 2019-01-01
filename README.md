@@ -1,3 +1,12 @@
+# tl;dr
+
+```
+pip3 install -r app/requirements.txt
+python3 app/app.py
+curl -i -u u1:u1 http://0.0.0.0:5000/posts
+```
+
+
 # REST-SQL
 
 Personal boilerplate code for REST API using Flask and SQLalchemy.
@@ -10,9 +19,8 @@ For **testing** there is a `testing_app.py`, the actual `pytest` tests
 and testdata are under `test/`.
 As an example ther is a **build strategy** in `.circleci/config.yml`.
 
+
 ## Testing
-
-
 
 **on host**
 
@@ -39,5 +47,6 @@ docker-compose run tests pytest test
 
 # TODO
 
-- properly separate the app from the tests
+- mit DB `sqlite:///test/test.db` geht dockerized nicht mehr.
+  docker container müssten beide ein volume for test.db sharen
 - deploy startegy
