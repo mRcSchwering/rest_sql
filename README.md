@@ -49,4 +49,4 @@ docker-compose run tests pytest test
 
 - mit DB `sqlite:///test/test.db` geht dockerized nicht mehr.
   docker container müssten beide ein volume for test.db sharen
-- deploy startegy
+- deploy startegy.
