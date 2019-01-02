@@ -6,6 +6,8 @@ services:
     build: app
     ports:
       - "5000:5000"
+    volumes:
+      - "database:/data"
 
   tests:
     build: .
@@ -13,3 +15,8 @@ services:
       FLASK_APP: app
     ports:
       - "5001:5001"
+    volumes:
+      - "database:/app/data"
+
+volumes:
+  database:

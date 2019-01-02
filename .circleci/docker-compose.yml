@@ -6,8 +6,17 @@ services:
     image: mrcschwering/cci-rest_sql:latest_build
     ports:
       - "5000:5000"
+    volumes:
+      - "database:/data"
 
   tests:
     build: .
     environment:
       FLASK_APP: app
+    ports:
+      - "5001:5001"
+    volumes:
+      - "database:/app/data"
+
+volumes:
+  database:

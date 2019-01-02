@@ -36,6 +36,6 @@ def reset_testdata():
 
 
 if __name__ == '__main__':
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test/test.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/test.db'
     db.init_app(app)
     app.run(host='0.0.0.0', port=5001)

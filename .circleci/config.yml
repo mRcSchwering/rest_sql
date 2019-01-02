@@ -38,7 +38,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            docker-compose -f "$compose_yml" run tests pytest test
+            docker-compose -f "$compose_yml" exec tests pytest test
 
   deploy:
     environment:

@@ -40,7 +40,7 @@ pytest test
 ```
 docker-compose build
 docker-compose up -d
-docker-compose run tests pytest test
+docker-compose exec tests pytest test
 ```
 
 
