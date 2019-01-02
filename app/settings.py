@@ -15,7 +15,7 @@ FLASK_DEBUG = True  # do not use in prodcution
 FLASK_SSL = False  # existing 'secrets/cert.pem' and 'secrets/key.pem' will set it True
 
 # SQLAlchemy settings
-SQLALCHEMY_DATABASE_URI = 'sqlite:///../data/test.db'  # 'sqlite://../test/test.db' for testing
+SQLALCHEMY_DATABASE_URI = 'sqlite:///../data/test.db'  # 'sqlite:///../data/test.db' for testing
 SQLALCHEMY_TRACK_MODIFICATIONS = False  # do not use in production
 
 

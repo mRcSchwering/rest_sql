@@ -1,11 +1,9 @@
 # tl;dr
 
 ```
-pip3 install -r app/requirements.txt
 python3 app/app.py
-curl -i -u u1:u1 http://0.0.0.0:5000/posts
+curl -i -u u1:u1 http://0.0.0.0:5000/posts/
 ```
-
 
 # REST-SQL
 
@@ -16,13 +14,17 @@ The **actual app** is under `app/` with its `app/settings.py`, `app/app.py`
 and its configuration in `app/secrets/config.json`.
 The build is in `app/Dockerfile`.
 For **testing** there is a `testing_app.py`, the actual `pytest` tests
-and testdata are under `test/`.
+are under `test/`.
 As an example ther is a **build strategy** in `.circleci/config.yml`.
-
 
 ## Testing
 
-**on host**
+The default database URIs for both apps make sense for testing.
+`app/app.py` and the `testing_app.py`
+share the test database in `data/test.db` (see `docker-compose.yml`).
+Like this integration tests work both dockerized and locally.
+
+**local**
 
 ```
 # start actual app
@@ -43,10 +45,6 @@ docker-compose up -d
 docker-compose exec tests pytest test
 ```
 
-
-
 # TODO
 
-- mit DB `sqlite:///test/test.db` geht dockerized nicht mehr.
-  docker container müssten beide ein volume for test.db sharen
 - deploy startegy.

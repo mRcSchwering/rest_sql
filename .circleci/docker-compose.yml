@@ -10,7 +10,7 @@ services:
       - "database:/data"
 
   tests:
-    build: .
+    build: ../
     environment:
       FLASK_APP: app
     ports:
